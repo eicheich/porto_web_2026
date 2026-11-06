@@ -1,0 +1,6 @@
+"use client";
+import { useState } from "react";
+import { Upload } from "lucide-react";
+import { classifyImage } from "@/lib/placeholder-inference";
+export function ImageClassifierDemo() { const [file, setFile] = useState<File | null>(null); const results = file ? classifyImage(file.name) : []; return <div className="demo-stack"><label className="upload-zone"><Upload size={20} /><span>{file ? file.name : "Drop an image here or choose a file"}</span><input type="file" accept="image/*" onChange={(event) => setFile(event.target.files?.[0] ?? null)} /></label>{results.length > 0 && <div className="result-list" aria-live="polite">{results.map((result) => <div className="result-row" key={result.label}><div><strong>{result.label}</strong><span>{Math.round(result.confidence * 100)}%</span></div><div className="confidence-track"><i style={{ width: `${result.confidence * 100}%` }} /></div></div>)}</div>}</div> }
+export const imageClassifierMetadata = { slug: "image-classifier", title: "Image Classifier", description: "Upload a photo and see a small top-k prediction panel appear in the browser.", tags: ["Vision", "Top-k predictions"], category: "Vision", thumbnail: "linear-gradient(135deg, #d9f2f5, #7fd6e0)", architecture: "MobileNet-style image encoder", dataset: "Placeholder garden + coastal set", accuracy: "91% top-3", component: ImageClassifierDemo } as const;
